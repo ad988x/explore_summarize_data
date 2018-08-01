@@ -1,3 +1,8 @@
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(knitr)
+knitr::opts_chunk$set( echo=FALSE,warning=FALSE,message=FALSE)
+```
+
 Explore & Summarize: Red Wine Dataset by Andy
 ========================================================
 ## Dataset Introduction:
@@ -50,40 +55,58 @@ summary(rw)
 ### Fixed Acidity
 
 ```{r echo=FALSE, fixed_acidity}
-ggplot(aes(x = fixed.acidity), data = rw) + 
-  geom_histogram(colour = 'black', fill = '#099DD9', binwidth = .1) + 
-  scale_x_continuous(breaks = seq(4, 16, 1))
+p1 <- ggplot(aes(x = fixed.acidity), data = rw) + 
+  geom_histogram(colour = 'black', fill = '#099DD9', binwidth = .01) 
+
+p2 <- ggplot(aes(x = log10(fixed.acidity)), data = rw) + 
+  geom_histogram(colour = 'black', fill = 'red', binwidth = .01) 
+
+grid.arrange(p1,p2, ncol = 2)
 ```
 
-The graph is right-skewed.  The data is mostely between 7 & 8, with a few outliers.
+The graph is right-skewed. The data is mostely between 7 & 8, with a few outliers. The graph is a normal distribution curve when the log transformation is implemented.
 
 
 ### Volatile Acidity
 
 ```{r echo=FALSE, volatile_acidity}
-ggplot(aes(x = volatile.acidity), data = rw) + 
-  geom_histogram(colour = 'black', fill = '#099DD9', binwidth = .01) + 
-  scale_x_continuous(breaks = seq(0, 1.6, .1))
+
+p1 <- ggplot(aes(x = volatile.acidity), data = rw) + 
+  geom_histogram(colour = 'black', fill = '#099DD9', binwidth = .01)  
+p2 <- ggplot(aes(x = log10(volatile.acidity)), data = rw) + 
+  geom_histogram(colour = 'black', fill = 'red', binwidth = .01)
+
+grid.arrange(p1, p2, ncol = 2)
 ```
 
-The bulk of the data is between 0.3 & 0.7 with a few outliers between 1.0 and 1.58.  The mean of the volatile acidity is 0.5278.
+Within the volatile acidity data, there are outliers, therefore a log transformation was implemented. The mean of the volatile acidity is 0.5278.
 
 ### Citric Acid
 
 ```{r echo=FALSE, citric_acid}
-ggplot(aes(x = citric.acid), data = rw) + 
+p1 <- ggplot(aes(x = citric.acid), data = rw) + 
   geom_histogram(colour = 'black', fill = '#099DD9', binwidth=.01) + 
   scale_x_continuous(breaks = seq(0, 1, .1))
+
+p2 <- ggplot(aes(x = log10(citric.acid)), data = rw) + 
+  geom_histogram(colour = 'black', fill = 'red', binwidth=.1) + 
+  scale_x_continuous()
+
+grid.arrange(p1, p2, ncol = 2)
 ```
 
-The bulk of the observations land between 0 and 0.5 with the bulk of the data at/around 0, with a very small percentage of outliers between 0.8 & 1.
+The bulk of the observations land between 0 and 0.5 with the bulk of the data at/around 0, with a very small percentage of outliers between 0.8 & 1.  Even with adding the log distribution, the graph is still not a normal distribution curve.
 
 ### Sugar
 
 ```{r echo=FALSE, sugar}
-ggplot(aes(x = residual.sugar), data = rw) + 
+p1 <- ggplot(aes(x = residual.sugar), data = rw) + 
   geom_histogram(colour = 'black', fill = '#099DD9', binwidth=.1) + 
   scale_x_continuous(breaks = seq(0, 16, 1))
+p2 <- ggplot(aes(x = log10(residual.sugar)), data = rw) + 
+  geom_histogram(colour = 'black', fill = 'red', binwidth=.01)
+  
+grid.arrange( p1, p2, ncol = 2)
 ```
 
 Sugar is right skewed heavily, with the bulk of the observations at 0.2. There are quite a few outliers.
@@ -91,32 +114,49 @@ Sugar is right skewed heavily, with the bulk of the observations at 0.2. There a
 ### Chlorides
 
 ```{r echo=FALSE, chlorides}
-ggplot(aes(x = chlorides), data = rw) + 
+p1 <- ggplot(aes(x = chlorides), data = rw) + 
   geom_histogram(colour = 'black', fill = '#099DD9', binwidth = .01) + 
   scale_x_continuous(breaks = seq(0, .6, .1))
+
+p2 <- ggplot(aes(x = log10(chlorides)), data = rw) + 
+  geom_histogram(colour = 'black', fill = 'red', binwidth = .1) + 
+  scale_x_continuous()
+  
+  grid.arrange(p1, p2, ncol = 2)
 ```
 
-This graph is very similar to the sugar graph, with the bulk of the observations at .1 and extreme outliers.
+This graph is very similar to the sugar graph, with the bulk of the observations at .1 and extreme outliers.  After the log10 distribution, it is a normal distribution curve.
 
 ### Free Sulfur Dioxide
 
 ```{r echo=FALSE, free_sulfur_dioxide}
-ggplot(aes(x = free.sulfur.dioxide), data = rw) + 
+p1 <- ggplot(aes(x = free.sulfur.dioxide), data = rw) + 
   geom_histogram(colour = 'black', fill = '#099DD9', binwidth = 4) + 
-  scale_x_continuous(breaks = seq(1, 72, 4))
+  scale_x_continuous()
+
+p2 <- ggplot(aes(x = log10(free.sulfur.dioxide)), data = rw) + 
+  geom_histogram(colour = 'black', fill = 'red', binwidth = .1) + 
+  scale_x_continuous()
+
+grid.arrange(p1, p2, ncol = 2)
 ```
 
-This is similar to the 2 previous charts with the observations being right skewed with a few outliers.  
+This is similar to the 2 previous charts with the observations being right skewed with a few outliers.  After applying the log transformation, we still do not have a normal distribution curve.
 
 ### Total Sulfur Dioxide
 
 ```{r echo=FALSE, total_sulfur_dioxide}
-ggplot(aes(x = total.sulfur.dioxide), data = rw) + 
+p1 <- ggplot(aes(x = total.sulfur.dioxide), data = rw) + 
   geom_histogram(colour = 'black', fill = '#099DD9', binwidth = 5) + 
   scale_x_continuous(breaks = seq(5, 290, 20))
+p2 <- ggplot(aes(x = log10(total.sulfur.dioxide)), data = rw) + 
+  geom_histogram(colour = 'black', fill = 'red', binwidth = .1) + 
+  scale_x_continuous()
+
+grid.arrange(p1, p2, ncol = 2)
 ```
 
-This graph is another that is right skewed with bulk of the data between 10 & 30 with a small number of extreme outliers.
+This graph is another that is right skewed with bulk of the data between 10 & 30 with a small number of extreme outliers.  I used log for this due to the extreme outliers, now it is a normal distribution curve.
 
 ### Density
 
@@ -141,12 +181,18 @@ This graph is another example of a Normal Distribution Curve, with the mean at 3
 ### Sulphates
 
 ```{r echo=FALSE, sulphates}
-ggplot(aes(x = sulphates), data = rw) + 
+p1 <- ggplot(aes(x = sulphates), data = rw) + 
   geom_histogram(colour = 'black', fill = '#099DD9', binwidth = .1) + 
   scale_x_continuous()
+
+p2 <- ggplot(aes(x = log10(sulphates)), data = rw) + 
+  geom_histogram(colour = 'black', fill = 'red', binwidth = .01) + 
+   scale_x_continuous()
+
+grid.arrange(p1, p2, ncol = 2)
 ```
 
-The Sulphates graph is skewed to the right, with a few outliers.  This is the like some of the previous graphs we have seen.
+The Sulphates graph is skewed to the right, with a few outliers.  This is the like some of the previous graphs we have seen.  I implemented the log10 distribution, now we have a normal distribution curve.
 
 ### Alcohol
 
@@ -166,7 +212,7 @@ ggplot(aes(x = quality), data = rw) +
   scale_x_continuous(breaks = seq(3, 8, 1))
 ```
 
-The range of quality is 3 through 8, but most of the ranking is 5 and 6, with the others as smaller pieces of the ranking. 
+The range of quality is 3 through 8, but most of the ranking is 5 and 6, with the others as smaller pieces of the ranking. Overall, normal distribution curve.
 
 # Univariate Analysis
 
@@ -269,23 +315,32 @@ After looking at the previous analysis, I will be plotting sugar, alcohol and de
 
 ### Sugar vs Alcohol for quality
 ```{r echo=FALSE, Multivariate_Plots}
-ggplot(aes(x = residual.sugar, y = alcohol), data = rw) + 
-  geom_point(aes(color = quality), alpha = 0.5, size = 4, position = 'jitter') 
+ggplot(aes(x = residual.sugar, y = alcohol, color = factor(quality)), data = rw) + 
+  geom_point() + scale_colour_brewer(type = 'div', palette = 'Greens', direction = 1) +
+  theme_dark()
 ```
+
+Analyzing this graph, we can make a conclusion that the more sugar in the wine, the lower alcohol content and the lower quality of wine.  Higher quality of wine, have less sugar.
 
 ### Density vs Alcohol with quality
 
 ```{r}
-ggplot(aes(x = density, y = alcohol), data = rw) + 
-  geom_point(aes(color = quality), alpha = 0.5, size = 4, position = 'jitter')
+ggplot(aes(x = density, y = alcohol, color = factor(quality)), data = rw) + 
+  geom_point() + scale_colour_brewer(type = 'div', palette = 'PRGn', direction = 1) + 
+  theme_dark()
 ```
+
+In regards to density in relationship with alcohol content and quality of wine, the lower dense the wine, the higher alcohol content and higher quality of wine.
 
 ### Sugar vs Density with quality
 
 ```{r}
-ggplot(aes(x = residual.sugar, y = density), data = rw) + 
-  geom_point(aes(color = quality), alpha = 0.5, size = 4, position = 'jitter')
+ggplot(aes(x = residual.sugar, y = density, color = factor(quality)), data = rw) + 
+  geom_point() + scale_color_brewer(type = 'div', palette = 4, direction = -1) + 
+  theme_dark()
 ```
+
+Now combining both density and residual.sugar in regards to quality of wine, the less dense, the less sugar, the higher quality of wine.
 
 # Multivariate Analysis
 
